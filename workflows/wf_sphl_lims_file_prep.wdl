@@ -21,8 +21,8 @@ workflow sphl_lims_prep {
     input:
       samplename                 = samplename,
       percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
-      meanbaseq                  = select_first([meanbaseq, "0.0"]), 
-      meanmapq                   = select_first([meanmapq, "0.0"]),
+      meanbaseq                  = meanbaseq, 
+      meanmapq                   = meanmapq,
       pango_lineage              = select_first([pango_lineage, "NA"]),
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
@@ -43,10 +43,10 @@ workflow sphl_lims_prep {
 task lims_prep {
   input {
     String    samplename
-    Float     percent_reference_coverage
-    Float     meanbaseq
-    Float     meanmapq
-    String    pango_lineage
+    Float?     percent_reference_coverage
+    String?    meanbaseq
+    String?    meanmapq
+    String?    pango_lineage
     Float     cov_threshold
     String    docker
   }
