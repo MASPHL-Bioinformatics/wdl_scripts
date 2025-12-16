@@ -66,7 +66,7 @@ workflow sphl_lims_file_gen {
       meanbaseq_trim              = meanbaseq_trim,
       meanmapq_trim               = meanmapq_trim,
       assembly_mean_coverage      = assembly_mean_coverage,
-      pangolin_conflicts          = pangolin_conflicts,
+      #pangolin_conflicts          = pangolin_conflicts,
       nextclade_aa_subs           = nextclade_aa_subs,
       nextclade_aa_dels           = nextclade_aa_dels,
       nextclade_clade             = nextclade_clade,
