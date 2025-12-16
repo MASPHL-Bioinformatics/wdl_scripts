@@ -25,7 +25,6 @@ workflow sphl_lims_file_gen {
     Array[Float]     assembly_mean_coverage
     Array[String]    tool_lineage
     Array[String]    pango_lineage
-    Array[String]    pangolin_conflicts
     Array[String]    pango_version
     Array[String]    nextclade_aa_subs
     Array[String]    nextclade_aa_dels
