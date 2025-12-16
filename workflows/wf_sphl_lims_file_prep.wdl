@@ -6,11 +6,11 @@ workflow sphl_lims_prep {
   }
   input {
     String    samplename
-    Float?     percent_reference_coverage = 0.0
-    Float?     meanbaseq = 0.0
-    Float?     meanmapq = 0.0
-    String?    pango_lineage = "NA"
-    String?    pangolin_version = "NA"
+    Float?     percent_reference_coverage
+    String?    meanbaseq
+    String?    meanmapq
+    String?    pango_lineage
+    String?    pangolin_version
     String    analysis_method
     String    analysis_version
     String    batch_id
@@ -21,8 +21,8 @@ workflow sphl_lims_prep {
     input:
       samplename                 = samplename,
       percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
-      meanbaseq                  = select_first([meanbaseq, 0.0]), 
-      meanmapq                   = select_first([meanmapq, 0.0]),
+      meanbaseq                  = select_first([meanbaseq, "0.0"]), 
+      meanmapq                   = select_first([meanmapq, "0.0"]),
       pango_lineage              = select_first([pango_lineage, "NA"]),
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
@@ -52,6 +52,14 @@ task lims_prep {
   }
   command <<<
     python3 <<CODE
+
+    if meanbaseq != "" and meanmapq != "":
+      meanbaseq = float(meanbaseq)
+      meanmapq = float(meanmapq)
+    else:
+      meanbaseq = 0.0
+      meanmapq = 0.0
+
     if ~{percent_reference_coverage} >= ~{cov_threshold} and ~{meanbaseq} >= 20 and ~{meanmapq} >= 20:
       with open("STATUS", 'wt') as thing: thing.write("PASS")
       with open("TOOL_LIN", 'wt') as thing: thing.write("~{pango_lineage}")
