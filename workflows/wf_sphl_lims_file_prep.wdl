@@ -2,15 +2,15 @@ version 1.0
 
 workflow sphl_lims_prep {
   meta {
-    description: "Takes output from Theiagens Titan_ClearLabs and Titan_Illumina_PE and aggregates for LIMS integration"
+    description: "Takes output from Theiagens TheiaCoV_Illumina_PE_PHB and aggregates for LIMS integration"
   }
   input {
     String    samplename
-    Float     percent_reference_coverage
-    Float     meanbaseq
-    Float     meanmapq
-    String    pango_lineage
-    String    pangolin_version
+    Float     percent_reference_coverage = 0.0
+    Float     meanbaseq = 0.0
+    Float     meanmapq = 0.0
+    String    pango_lineage = "NA"
+    String    pangolin_version = "NA"
     String    analysis_method
     String    analysis_version
     String    batch_id
@@ -43,10 +43,10 @@ workflow sphl_lims_prep {
 task lims_prep {
   input {
     String    samplename
-    Float     percent_reference_coverage = 0.0
-    Float     meanbaseq = 0.0
-    Float     meanmapq = 0.0
-    String    pango_lineage = ""
+    Float     percent_reference_coverage
+    Float     meanbaseq
+    Float     meanmapq
+    String    pango_lineage
     Float     cov_threshold
     String    docker
   }
