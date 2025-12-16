@@ -204,29 +204,29 @@ task run_results_file_gen {
 
       index = 0
       while index < len(samplename_array):
-        samplename = samplename_array[index]
-        batchid = batchid_array[index]
-        seq_date = seq_date_array[index]
-        assembly_status = assembly_status_array[index]
-        percent_reference_coverage = percent_reference_coverage_array[index]
-        assembly_mean_coverage = assembly_mean_coverage_array[index]
-        meanbaseq_trim = meanbaseq_trim_array[index]
-        meanmapq_trim = meanmapq_trim_array[index]
-        nextclade_clade = nextclade_clade_array[index].replace(',','')
-        pango_lineage = pango_lineage_array[index]
-        qc_reads_raw = qc_reads_raw_array[index]
-        qc_reads_clean = qc_reads_clean_array[index]
-        kraken_human = kraken_human_array[index]
-        kraken_sc2 = kraken_sc2_array[index]
-        kraken_human_dehosted = kraken_human_dehosted_array[index]
-        kraken_sc2_dehosted = kraken_sc2_dehosted_array[index]
-        number_N = number_N_array[index]
-        number_Degenerate = number_Degenerate_array[index]
-        assembly_length_unambiguous = assembly_length_unambiguous_array[index]
-        number_Total = number_Total_array[index]
-        pango_version = pango_version_array[index]
-        nextclade_aa_subs = nextclade_aa_subs_array[index].replace(',','|')
-        nextclade_aa_dels = nextclade_aa_dels_array[index].replace(',','|')
+        samplename = "NA" if samplename_array[index] == "" else samplename_array[index]
+        batchid = "NA" if batchid_array[index]== "" else batchid_array[index]
+        seq_date = "NA" if seq_date_array[index]== "" else seq_date_array[index]
+        assembly_status = "NA" if assembly_status_array[index]== "" else assembly_status_array[index]
+        percent_reference_coverage = "NA" if percent_reference_coverage_array[index]== "" else percent_reference_coverage_array[index]
+        assembly_mean_coverage = "NA" if assembly_mean_coverage_array[index]== "" else assembly_mean_coverage_array[index]
+        meanbaseq_trim = "NA" if meanbaseq_trim_array[index]== "" else meanbaseq_trim_array[index]
+        meanmapq_trim = "NA" if meanmapq_trim_array[index]== "" else meanmapq_trim_array[index]
+        nextclade_clade = "NA" if nextclade_clade_array[index].replace(',','')== "" else nextclade_clade_array[index].replace(',','')
+        pango_lineage = "NA" if pango_lineage_array[index]== "" else pango_lineage_array[index]
+        qc_reads_raw = "NA" if qc_reads_raw_array[index]== "" else qc_reads_raw_array[index]
+        qc_reads_clean = "NA" if qc_reads_clean_array[index]== "" else qc_reads_clean_array[index]
+        kraken_human = "NA" if kraken_human_array[index]== "" else kraken_human_array[index]
+        kraken_sc2 = "NA" if kraken_sc2_array[index]== "" else kraken_sc2_array[index]
+        kraken_human_dehosted = "NA" if kraken_human_dehosted_array[index]== "" else kraken_human_dehosted_array[index]
+        kraken_sc2_dehosted = "NA" if kraken_sc2_dehosted_array[index]== "" else kraken_sc2_dehosted_array[index]
+        number_N = "NA" if number_N_array[index]== "" else number_N_array[index]
+        number_Degenerate = "NA" if number_Degenerate_array[index]== "" else number_Degenerate_array[index]
+        assembly_length_unambiguous = "NA" if assembly_length_unambiguous_array[index]== "" else assembly_length_unambiguous_array[index]
+        number_Total = "NA" if number_Total_array[index]== "" else number_Total_array[index]
+        pango_version = "NA" if pango_version_array[index]== "" else pango_version_array[index]
+        nextclade_aa_subs = "NA" if nextclade_aa_subs_array[index].replace(',','|')== "" else nextclade_aa_subs_array[index].replace(',','|')
+        nextclade_aa_dels = "NA" if nextclade_aa_dels_array[index].replace(',','|')== "" else nextclade_aa_dels_array[index].replace(',','|')
         outfile.write(f'{samplename},{batchid},{seq_date},{assembly_status},{percent_reference_coverage},{assembly_mean_coverage},{meanbaseq_trim},{meanmapq_trim},{nextclade_clade},{pango_lineage},{qc_reads_raw},{qc_reads_clean},{kraken_human},{kraken_sc2},{kraken_human_dehosted},{kraken_sc2_dehosted},{number_N},{number_Degenerate},{assembly_length_unambiguous},{number_Total},{pango_version},{nextclade_aa_subs},{nextclade_aa_dels},\n')
         index += 1
     else: 
