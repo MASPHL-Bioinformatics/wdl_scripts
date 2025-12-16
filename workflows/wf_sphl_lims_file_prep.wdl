@@ -6,11 +6,11 @@ workflow sphl_lims_prep {
   }
   input {
     String    samplename
-    Float     percent_reference_coverage = 0.0
-    Float     meanbaseq = 0.0
-    Float     meanmapq = 0.0
-    String    pango_lineage = "NA"
-    String    pangolin_version = "NA"
+    Float?     percent_reference_coverage
+    Float?     meanbaseq
+    Float?     meanmapq
+    String?    pango_lineage
+    String?    pangolin_version
     String    analysis_method
     String    analysis_version
     String    batch_id
@@ -20,10 +20,10 @@ workflow sphl_lims_prep {
   call lims_prep {
     input:
       samplename                 = samplename,
-      percent_reference_coverage = percent_reference_coverage, 
-      meanbaseq                  = meanbaseq, 
-      meanmapq                   = meanmapq, 
-      pango_lineage              = pango_lineage,
+      percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
+      meanbaseq                  = select_first([meanbaseq, 0.0]), 
+      meanmapq                   = select_first([meanmapq, 0.0]),
+      pango_lineage              = select_first([pango_lineage, "NA"])
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
   }  
@@ -31,7 +31,7 @@ workflow sphl_lims_prep {
     String    assembly_status  = lims_prep.assembly_status
     String    tool_lineage     = lims_prep.tool_lineage
     String    lineage_to_maven = lims_prep.tool_lineage
-    String    pango_version    = pangolin_version
+    String    pango_version    = select_first([pangolin_version, "NA"])
     String    organism         = "SARS-CoV-2"
     String    test             = "SARS-CoV-2 Sequencing"
     String    method           = analysis_method
