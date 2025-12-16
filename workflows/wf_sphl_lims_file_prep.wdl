@@ -23,7 +23,7 @@ workflow sphl_lims_prep {
       percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
       meanbaseq                  = select_first([meanbaseq, 0.0]), 
       meanmapq                   = select_first([meanmapq, 0.0]),
-      pango_lineage              = select_first([pango_lineage, "NA"])
+      pango_lineage              = select_first([pango_lineage, "NA"]),
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
   }  
