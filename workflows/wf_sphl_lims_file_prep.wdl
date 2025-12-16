@@ -53,18 +53,18 @@ task lims_prep {
   command <<<
     python3 <<CODE
 
-    if meanbaseq != "" and meanmapq != "":
-      meanbaseq = float(meanbaseq)
-      meanmapq = float(meanmapq)
+    if ~{meanbaseq} != "" and ~{meanmapq} != "":
+      meanbaseq = float(~{meanbaseq})
+      meanmapq = float(~{meanmapq})
     else:
       meanbaseq = 0.0
       meanmapq = 0.0
 
-    if ~{percent_reference_coverage} >= ~{cov_threshold} and ~{meanbaseq} >= 20 and ~{meanmapq} >= 20:
+    if ~{percent_reference_coverage} >= ~{cov_threshold} and meanbaseq >= 20 and meanmapq >= 20:
       with open("STATUS", 'wt') as thing: thing.write("PASS")
       with open("TOOL_LIN", 'wt') as thing: thing.write("~{pango_lineage}")
       with open("MAV_LIN", 'wt') as thing: thing.write("~{pango_lineage}")
-    elif ~{percent_reference_coverage} < ~{cov_threshold} or ~{meanbaseq} < 20 or ~{meanmapq} < 20:
+    elif ~{percent_reference_coverage} < ~{cov_threshold} or meanbaseq < 20 or meanmapq < 20:
       with open("STATUS", 'wt') as thing: thing.write("FAIL")
       with open("TOOL_LIN", 'wt') as thing: thing.write("INVALID")
       with open("MAV_LIN", 'wt') as thing: thing.write("INVALID")
