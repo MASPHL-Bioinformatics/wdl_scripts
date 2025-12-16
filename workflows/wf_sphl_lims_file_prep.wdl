@@ -53,7 +53,7 @@ task lims_prep {
   command <<<
     python3 <<CODE
 
-    if ~{meanbaseq} != "" and ~{meanmapq} != "":
+    if "~{meanbaseq}" != "" and "~{meanmapq}" != "":
       meanbaseq = float(~{meanbaseq})
       meanmapq = float(~{meanmapq})
     else:
