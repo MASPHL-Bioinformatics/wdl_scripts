@@ -2,33 +2,33 @@ version 1.0
 
 workflow sphl_lims_file_gen {
   meta {
-    description: "Takes output from Theiagens Titan_ClearLabs and Titan_Illumina_PE and aggregates for LIMS integration"
+    description: "Takes output from Theiagens TheiaCoV_Illumina_PE_PHB and aggregates for LIMS integration"
   }
   input {
     Array[String]    samplename
     Array[String]    batchid
     Array[String]    seqdate
     Array[String]    assembly_status
-    Array[Int]       qc_reads_raw
-    Array[Int]       qc_reads_clean
-    Array[Float]     kraken_human
-    Array[Float]     kraken_sc2
-    Array[Float]     kraken_human_dehosted
-    Array[Float]     kraken_sc2_dehosted
-    Array[Int]       number_N
-    Array[Int]       assembly_length_unambiguous
-    Array[Int]       number_Degenerate
-    Array[Int]       number_Total
-    Array[Float]     percent_reference_coverage
-    Array[Float]     meanbaseq_trim
-    Array[Float]     meanmapq_trim
-    Array[Float]     assembly_mean_coverage
+    Array[String]?   qc_reads_raw = ""
+    Array[String]?   qc_reads_clean = ""
+    Array[String]?   kraken_human = ""
+    Array[String]?   kraken_sc2 = ""
+    Array[String]?   kraken_human_dehosted = ""
+    Array[String]?   kraken_sc2_dehosted = ""
+    Array[String]?   number_N = ""
+    Array[String]?   assembly_length_unambiguous = ""
+    Array[String]?   number_Degenerate = ""
+    Array[String]?   number_Total = ""
+    Array[String]?   percent_reference_coverage = ""
+    Array[String]?   meanbaseq_trim = ""
+    Array[String]?   meanmapq_trim = ""
+    Array[String]?   assembly_mean_coverage = ""
     Array[String]    tool_lineage
-    Array[String]    pango_lineage
+    Array[String]?   pango_lineage = ""
     Array[String]    pango_version
-    Array[String]    nextclade_aa_subs
-    Array[String]    nextclade_aa_dels
-    Array[String]    nextclade_clade
+    Array[String]?   nextclade_aa_subs = ""
+    Array[String]?   nextclade_aa_dels = ""
+    Array[String]?   nextclade_clade = ""
     Array[String]    lineage_to_maven
     String           organism = "SARS-CoV 2"
     String           test = "SARS-CoV-2 Sequencing"
@@ -140,20 +140,20 @@ task run_results_file_gen {
     Array[String]    seqdate
     Array[String]    assembly_status
     Array[String]    pango_lineage
-    Array[Int]       qc_reads_raw
-    Array[Int]       qc_reads_clean
-    Array[Float]     kraken_human
-    Array[Float]     kraken_sc2
-    Array[Float]     kraken_human_dehosted
-    Array[Float]     kraken_sc2_dehosted
-    Array[Int]       number_N
-    Array[Int]       assembly_length_unambiguous
-    Array[Int]       number_Degenerate
-    Array[Int]       number_Total
-    Array[Float]     percent_reference_coverage
-    Array[Float]     meanbaseq_trim
-    Array[Float]     meanmapq_trim
-    Array[Float]     assembly_mean_coverage
+    Array[String]     qc_reads_raw
+    Array[String]     qc_reads_clean
+    Array[String]     kraken_human
+    Array[String]     kraken_sc2
+    Array[String]     kraken_human_dehosted
+    Array[String]     kraken_sc2_dehosted
+    Array[String]     number_N
+    Array[String]     assembly_length_unambiguous
+    Array[String]     number_Degenerate
+    Array[String]     number_Total
+    Array[String]     percent_reference_coverage
+    Array[String]     meanbaseq_trim
+    Array[String]     meanmapq_trim
+    Array[String]     assembly_mean_coverage
     Array[String]    nextclade_aa_subs
     Array[String]    nextclade_aa_dels
     Array[String]    nextclade_clade
