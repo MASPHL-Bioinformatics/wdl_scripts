@@ -6,30 +6,30 @@ workflow sphl_lims_prep {
   }
   input {
     String    samplename
-    Float?     percent_reference_coverage = 0.0
-    String?    meanbaseq = "NA"
-    String?    meanmapq  = "NA"
-    String?    pango_lineage = "NA"
-    String?    pangolin_version = "NA"
+    Float?    percent_reference_coverage = 0.0
+    String    meanbaseq
+    String    meanmapq
+    String?   pango_lineage = "NA"
+    String?   pangolin_version = "NA"
     String    analysis_method
     String    analysis_version
     String    batch_id
     Float     cov_threshold
-    Int?       qc_reads_raw = 0
-    Int?       qc_reads_clean = 0
-    Float?     kraken_human = 0.0
-    Float?     kraken_sc2 = 0.0
-    Float?     kraken_human_dehosted = 0.0
-    Float?     kraken_sc2_dehosted = 0.0
-    Int?       number_N = 0
-    Int?       assembly_length_unambiguous = 0
-    Int?       number_Degenerate = 0
-    Int?       number_Total = 0
-    Float?     percent_reference_coverage = 0.0
-    String?    assembly_mean_coverage = "NA"
-    String?    nextclade_aa_subs = "NA"
-    String?    nextclade_aa_dels = "NA"
-    String?    nextclade_clade = "NA"
+    Int?      qc_reads_raw = 0
+    Int?      qc_reads_clean = 0
+    Float?    kraken_human = 0.0
+    Float?    kraken_sc2 = 0.0
+    Float?    kraken_human_dehosted = 0.0
+    Float?    kraken_sc2_dehosted = 0.0
+    Int?      number_N = 0
+    Int?      assembly_length_unambiguous = 0
+    Int?      number_Degenerate = 0
+    Int?      number_Total = 0
+    Float?    percent_reference_coverage = 0.0
+    String    assembly_mean_coverage
+    String?   nextclade_aa_subs = "NA"
+    String?   nextclade_aa_dels = "NA"
+    String?   nextclade_clade = "NA"
     String    utiltiy_docker  = "quay.io/broadinstitute/viral-baseimage@sha256:340c0a673e03284212f539881d8e0fb5146b83878cbf94e4631e8393d4bc6753"
   }
   call lims_prep {
@@ -52,8 +52,8 @@ workflow sphl_lims_prep {
     String    report_method           = analysis_method
     String    report_method_version   = analysis_version
     String    batchid                 = batch_id
-    String    report_meanbaseq                    = select_first([meanbaseq, "NA"])
-    String    report_meanmapq                     = select_first([meanmapq, "NA"])
+    String    report_meanbaseq                    = meanbaseq
+    String    report_meanmapq                     = meanmapq
     String    report_pango_lineage                = select_first([pango_lineage, "NA"])
     Int       report_qc_reads_raw                 = select_first([qc_reads_raw, 0])
     Int       report_qc_reads_clean               = select_first([qc_reads_clean, 0])
@@ -66,7 +66,7 @@ workflow sphl_lims_prep {
     Int       report_number_Degenerate            = select_first([number_Degenerate, 0])
     Int       report_number_Total                 = select_first([number_Total, 0])
     Float     report_percent_reference_coverage   = select_first([percent_reference_coverage, 0.0])
-    String    report_assembly_mean_coverage       = select_first([assembly_mean_coverage, "NA"])
+    String    report_assembly_mean_coverage       = assembly_mean_coverage
     String    report_nextclade_aa_subs            = select_first([nextclade_aa_subs, "NA"])
     String    report_nextclade_aa_dels            = select_first([nextclade_aa_dels, "NA"])
     String    report_nextclade_clade              = select_first([nextclade_clade, "NA"])
@@ -75,13 +75,13 @@ workflow sphl_lims_prep {
 
 task lims_prep {
   input {
-    String    samplename
+    String     samplename
     Float?     percent_reference_coverage
-    String?    meanbaseq
-    String?    meanmapq
+    String     meanbaseq
+    String     meanmapq
     String?    pango_lineage
-    Float     cov_threshold
-    String    docker
+    Float      cov_threshold
+    String     docker
   }
   command <<<
     python3 <<CODE
