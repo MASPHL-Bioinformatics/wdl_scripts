@@ -6,30 +6,30 @@ workflow sphl_lims_prep {
   }
   input {
     String    samplename
-    Float     percent_reference_coverage
-    String    meanbaseq
-    String    meanmapq
-    String    pango_lineage
-    String    pangolin_version
+    Float?     percent_reference_coverage = 0.0
+    String?    meanbaseq = "NA"
+    String?    meanmapq  = "NA"
+    String?    pango_lineage = "NA"
+    String?    pangolin_version = "NA"
     String    analysis_method
     String    analysis_version
     String    batch_id
     Float     cov_threshold
-    Int       qc_reads_raw
-    Int       qc_reads_clean
-    Float     kraken_human
-    Float     kraken_sc2
-    Float     kraken_human_dehosted
-    Float     kraken_sc2_dehosted
-    Int       number_N
-    Int       assembly_length_unambiguous
-    Int       number_Degenerate
-    Int       number_Total
-    Float     percent_reference_coverage
-    String    assembly_mean_coverage
-    String    nextclade_aa_subs
-    String    nextclade_aa_dels
-    String    nextclade_clade
+    Int?       qc_reads_raw = 0
+    Int?       qc_reads_clean = 0
+    Float?     kraken_human = 0.0
+    Float?     kraken_sc2 = 0.0
+    Float?     kraken_human_dehosted = 0.0
+    Float?     kraken_sc2_dehosted = 0.0
+    Int?       number_N = 0
+    Int?       assembly_length_unambiguous = 0
+    Int?       number_Degenerate = 0
+    Int?       number_Total = 0
+    Float?     percent_reference_coverage = 0.0
+    String?    assembly_mean_coverage = "NA"
+    String?    nextclade_aa_subs = "NA"
+    String?    nextclade_aa_dels = "NA"
+    String?    nextclade_clade = "NA"
     String    utiltiy_docker  = "quay.io/broadinstitute/viral-baseimage@sha256:340c0a673e03284212f539881d8e0fb5146b83878cbf94e4631e8393d4bc6753"
   }
   call lims_prep {
