@@ -139,24 +139,24 @@ task run_results_file_gen {
     Array[String]    batchid
     Array[String]    seqdate
     Array[String]    assembly_status
-    Array[String]    pango_lineage
-    Array[String]     qc_reads_raw
-    Array[String]     qc_reads_clean
-    Array[String]     kraken_human
-    Array[String]     kraken_sc2
-    Array[String]     kraken_human_dehosted
-    Array[String]     kraken_sc2_dehosted
-    Array[String]     number_N
-    Array[String]     assembly_length_unambiguous
-    Array[String]     number_Degenerate
-    Array[String]     number_Total
-    Array[String]     percent_reference_coverage
-    Array[String]     meanbaseq_trim
-    Array[String]     meanmapq_trim
-    Array[String]     assembly_mean_coverage
-    Array[String]    nextclade_aa_subs
-    Array[String]    nextclade_aa_dels
-    Array[String]    nextclade_clade
+    Array[String]?    pango_lineage
+    Array[String]?     qc_reads_raw
+    Array[String]?     qc_reads_clean
+    Array[String]?     kraken_human
+    Array[String]?     kraken_sc2
+    Array[String]?     kraken_human_dehosted
+    Array[String]?     kraken_sc2_dehosted
+    Array[String]?     number_N
+    Array[String]?     assembly_length_unambiguous
+    Array[String]?     number_Degenerate
+    Array[String]?     number_Total
+    Array[String]?     percent_reference_coverage
+    Array[String]?     meanbaseq_trim
+    Array[String]?     meanmapq_trim
+    Array[String]?     assembly_mean_coverage
+    Array[String]?    nextclade_aa_subs
+    Array[String]?    nextclade_aa_dels
+    Array[String]?    nextclade_clade
     Array[String]    pango_version
     String           docker
   }
