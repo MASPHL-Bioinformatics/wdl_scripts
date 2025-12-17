@@ -64,7 +64,7 @@ workflow sphl_lims_prep {
     Int       report_number_N                     = select_first([number_N, 0])
     Int       report_assembly_length_unambiguous  = select_first([assembly_length_unambiguous, 0])
     Int       report_number_Degenerate            = select_first([number_Degenerate, 0])
-    Int       report_number_Total                 = select_first([num_total, 0])
+    Int       report_number_Total                 = select_first([number_total, 0])
     Float     report_percent_reference_coverage   = select_first([percent_reference_coverage, 0.0])
     String    report_assembly_mean_coverage       = select_first([assembly_mean_coverage, "NA"])
     String    report_nextclade_aa_subs            = select_first([nextclade_aa_subs, "NA"])
