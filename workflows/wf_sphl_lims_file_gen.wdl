@@ -5,7 +5,7 @@ workflow sphl_lims_file_gen {
     description: "Takes output from Theiagens TheiaCoV_Illumina_PE_PHB and aggregates for LIMS integration"
   }
   input {
-        Array[String]    samplename
+    Array[String]    samplename
     Array[String]    batchid
     Array[String]    seqdate
     Array[String]    assembly_status
@@ -20,9 +20,9 @@ workflow sphl_lims_file_gen {
     Array[Int]       number_Degenerate
     Array[Int]       number_Total
     Array[Float]     percent_reference_coverage
-    Array[String]     meanbaseq_trim
-    Array[String]     meanmapq_trim
-    Array[Float]     assembly_mean_coverage
+    Array[String]    meanbaseq_trim
+    Array[String]    meanmapq_trim
+    Array[String]    assembly_mean_coverage
     Array[String]    tool_lineage
     Array[String]    pango_lineage
     Array[String]    pango_version
@@ -151,9 +151,9 @@ task run_results_file_gen {
     Array[Int]       number_Degenerate
     Array[Int]       number_Total
     Array[Float]     percent_reference_coverage
-    Array[String]     meanbaseq_trim
-    Array[String]     meanmapq_trim
-    Array[Float]     assembly_mean_coverage
+    Array[String]    meanbaseq_trim
+    Array[String]    meanmapq_trim
+    Array[String]    assembly_mean_coverage
     Array[String]    nextclade_aa_subs
     Array[String]    nextclade_aa_dels
     Array[String]    nextclade_clade
