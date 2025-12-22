@@ -32,6 +32,17 @@ workflow sphl_lims_prep {
     String?   nextclade_clade = "NA"
     String    utiltiy_docker  = "quay.io/broadinstitute/viral-baseimage@sha256:340c0a673e03284212f539881d8e0fb5146b83878cbf94e4631e8393d4bc6753"
   }
+  # handling inputs with empty string values from TheiaCoV_Illumina_PE_PHB
+  if(meanbaseq == ""){
+    meanbaseq = "0.0"
+  }
+  if(meanmapq == ""){
+    meanmapq = "0.0"
+  }
+  if(assembly_mean_coverage == ""){
+    assembly_mean_coverage = "0.0"
+  }
+
   call lims_prep {
     input:
       samplename                 = samplename,
