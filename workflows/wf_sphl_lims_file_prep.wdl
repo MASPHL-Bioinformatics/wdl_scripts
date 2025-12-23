@@ -34,13 +34,13 @@ workflow sphl_lims_prep {
   }
   # handling inputs with empty string values from TheiaCoV_Illumina_PE_PHB
   if(meanbaseq == ""){
-    meanbaseq = "0.0"
+    String meanbaseq = "0.0"
   }
   if(meanmapq == ""){
-    meanmapq = "0.0"
+    String meanmapq = "0.0"
   }
   if(assembly_mean_coverage == ""){
-    assembly_mean_coverage = "0.0"
+    String assembly_mean_coverage = "0.0"
   }
 
   call lims_prep {
