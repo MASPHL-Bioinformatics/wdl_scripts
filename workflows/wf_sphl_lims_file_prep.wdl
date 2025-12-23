@@ -96,27 +96,27 @@ task format_empty_strings {
   command <<<
     python3 <<CODE
 
-    if ~{meanbaseq} == "":
-      meanbaseq_report = "0.0"
+    if "~{meanbaseq}" == "":
+      with open("MEANBASEQ", 'wt') as thing: thing.write("0.0")
     else:
-      meanbaseq_report = ~{meanbaseq}
+      with open("MEANBASEQ", 'wt') as thing: thing.write("~{meanbaseq}")
     
-    if ~{meanmapq} == "":
-      meanmapq_report = "0.0"
+    if "~{meanmapq}" == "":
+      with open("MEANMAPQ", 'wt') as thing: thing.write("0.0")
     else:
-      meanmapq_report = ~{meanmapq}
+      with open("MEANMAPQ", 'wt') as thing: thing.write("~{meanmapq}")
     
-    if ~{assembly_mean_coverage} == "":
-      assembly_mean_coverage_report = "0.0"
+    if "~{assembly_mean_coverage}" == "":
+      with open("COVERAGE", 'wt') as thing: thing.write("0.0")
     else: 
-      assembly_mean_coverage_report = ~{assembly_mean_coverage}
+      with open("COVERAGE", 'wt') as thing: thing.write("~{assembly_mean_coverage}")
 
     CODE
   >>>
   output {
-    String    meanbaseq_report              = meanbaseq_report
-    String    meanmapq_report               = meanmapq_report
-    String    assembly_mean_coverage_report = assembly_mean_coverage_report
+    String    meanbaseq_report              = read_string("MEANBASEQ")
+    String    meanmapq_report               = read_string("MEANMAPQ)
+    String    assembly_mean_coverage_report = read_string("COVERAGE")
   }
   runtime {
     docker: docker
