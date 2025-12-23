@@ -32,36 +32,28 @@ workflow sphl_lims_prep {
     String?   nextclade_clade = "NA"
     String    utiltiy_docker  = "quay.io/broadinstitute/viral-baseimage@sha256:340c0a673e03284212f539881d8e0fb5146b83878cbf94e4631e8393d4bc6753"
   }
+
   # handling inputs with empty string values from TheiaCoV_Illumina_PE_PHB
-  if(meanbaseq == ""){
-    String meanbaseq_report = "0.0"
-  }
-  if(meanbaseq != ""){
-    String meanbaseq_report = meanbaseq
-  }
-  if(meanmapq == ""){
-    String meanmapq_report = "0.0"
-  }
-  if(meanmapq != ""){
-    String meanmapq_report = meanmapq
-  }
-  if(assembly_mean_coverage == ""){
-    String assembly_mean_coverage_report = "0.0"
-  }
-  if (assembly_mean_coverage != ""){
-    String assembly_mean_coverage_report = assembly_mean_coverage
+  call format_empty_strings {
+    input:
+      samplename                = samplename,
+      meanbaseq                 = meanbaseq,
+      meanmapq                  = meanmapq,
+      assembly_mean_coverage    = assembly_mean_coverage
+      docker                    = utiltiy_docker
   }
 
   call lims_prep {
     input:
       samplename                 = samplename,
       percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
-      meanbaseq                  = meanbaseq_report, 
-      meanmapq                   = meanmapq_report,
+      meanbaseq                  = format_empty_strings.meanbaseq, 
+      meanmapq                   = format_empty_strings.meanmapq,
       pango_lineage              = select_first([pango_lineage, "NA"]),
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
   }  
+  
   output {
     String    assembly_status         = lims_prep.assembly_status
     String    report_tool_lineage     = lims_prep.tool_lineage
@@ -72,8 +64,8 @@ workflow sphl_lims_prep {
     String    report_method           = analysis_method
     String    report_method_version   = analysis_version
     String    batchid                 = batch_id
-    String    report_meanbaseq                    = meanbaseq_report
-    String    report_meanmapq                     = meanmapq_report
+    String    report_meanbaseq                    = format_empty_strings.meanbaseq
+    String    report_meanmapq                     = format_empty_strings.meanmapq
     String    report_pango_lineage                = select_first([pango_lineage, "NA"])
     Int       report_qc_reads_raw                 = select_first([qc_reads_raw, 0])
     Int       report_qc_reads_clean               = select_first([qc_reads_clean, 0])
@@ -86,11 +78,52 @@ workflow sphl_lims_prep {
     Int       report_number_Degenerate            = select_first([number_Degenerate, 0])
     Int       report_number_Total                 = select_first([number_Total, 0])
     Float     report_percent_reference_coverage   = select_first([percent_reference_coverage, 0.0])
-    String    report_assembly_mean_coverage       = assembly_mean_coverage_report
+    String    report_assembly_mean_coverage       = format_empty_strings.assembly_mean_coverage
     String    report_nextclade_aa_subs            = select_first([nextclade_aa_subs, "NA"])
     String    report_nextclade_aa_dels            = select_first([nextclade_aa_dels, "NA"])
     String    report_nextclade_clade              = select_first([nextclade_clade, "NA"])
   }
+}
+
+task format_empty_strings {
+  input {
+    String     samplename
+    String     meanbaseq
+    String     meanmapq
+    String     assembly_mean_coverage
+    String     docker
+  }
+  command <<<
+    python3 <<CODE
+
+    if ~{meanbaseq} == "":
+      meanbaseq = "0.0"
+    else:
+      meanbaseq = ~{meanbaseq}
+    
+    if ~{meanmapq} == "":
+      meanmapq = "0.0"
+    else:
+      meanmapq = ~{meanmapq}
+    
+    if ~{assembly_mean_coverage} == "":
+      assembly_mean_coverage = "0.0"
+    else: 
+      assembly_mean_coverage = ~{assembly_mean_coverage}
+
+    CODE
+  >>>
+  output {
+    String    meanbaseq              = meanbaseq
+    String    meanmapq               = meanmapq
+    String    assembly_mean_coverage = assembly_mean_coverage
+  }
+  runtime {
+    docker: docker
+    memory: "1 GB"
+    cpu: 1
+  }
+
 }
 
 task lims_prep {
@@ -106,13 +139,9 @@ task lims_prep {
   command <<<
     python3 <<CODE
 
-    if "~{meanbaseq}" != "" and "~{meanmapq}" != "":
-      meanbaseq = float(~{meanbaseq})
-      meanmapq = float(~{meanmapq})
-    else:
-      meanbaseq = 0.0
-      meanmapq = 0.0
-
+    meanbaseq = float(~{meanbaseq})
+    meanmapq = float(~{meanmapq})
+    
     if ~{percent_reference_coverage} >= ~{cov_threshold} and meanbaseq >= 20 and meanmapq >= 20:
       with open("STATUS", 'wt') as thing: thing.write("PASS")
       with open("TOOL_LIN", 'wt') as thing: thing.write("~{pango_lineage}")
