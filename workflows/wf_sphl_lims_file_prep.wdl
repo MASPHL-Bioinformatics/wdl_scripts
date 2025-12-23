@@ -115,7 +115,7 @@ task format_empty_strings {
   >>>
   output {
     String    meanbaseq_report              = read_string("MEANBASEQ")
-    String    meanmapq_report               = read_string("MEANMAPQ)
+    String    meanmapq_report               = read_string("MEANMAPQ")
     String    assembly_mean_coverage_report = read_string("COVERAGE")
   }
   runtime {
