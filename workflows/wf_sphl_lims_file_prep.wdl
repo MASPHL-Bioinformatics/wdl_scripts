@@ -39,7 +39,7 @@ workflow sphl_lims_prep {
       samplename                = samplename,
       meanbaseq                 = meanbaseq,
       meanmapq                  = meanmapq,
-      assembly_mean_coverage    = assembly_mean_coverage
+      assembly_mean_coverage    = assembly_mean_coverage,
       docker                    = utiltiy_docker
   }
 
@@ -53,7 +53,7 @@ workflow sphl_lims_prep {
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
   }  
-  
+
   output {
     String    assembly_status         = lims_prep.assembly_status
     String    report_tool_lineage     = lims_prep.tool_lineage
