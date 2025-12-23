@@ -34,21 +34,30 @@ workflow sphl_lims_prep {
   }
   # handling inputs with empty string values from TheiaCoV_Illumina_PE_PHB
   if(meanbaseq == ""){
-    String meanbaseq = "0.0"
+    String meanbaseq_report = "0.0"
+  }
+  if(meanbaseq != ""){
+    String meanbaseq_report = meanbaseq
   }
   if(meanmapq == ""){
-    String meanmapq = "0.0"
+    String meanmapq_report = "0.0"
+  }
+  if(meanmapq != ""){
+    String meanmapq_report = meanmapq
   }
   if(assembly_mean_coverage == ""){
-    String assembly_mean_coverage = "0.0"
+    String assembly_mean_coverage_report = "0.0"
+  }
+  if (assembly_mean_coverage != ""){
+    String assembly_mean_coverage_report = assembly_mean_coverage
   }
 
   call lims_prep {
     input:
       samplename                 = samplename,
       percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
-      meanbaseq                  = meanbaseq, 
-      meanmapq                   = meanmapq,
+      meanbaseq                  = meanbaseq_report, 
+      meanmapq                   = meanmapq_report,
       pango_lineage              = select_first([pango_lineage, "NA"]),
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
@@ -63,8 +72,8 @@ workflow sphl_lims_prep {
     String    report_method           = analysis_method
     String    report_method_version   = analysis_version
     String    batchid                 = batch_id
-    String    report_meanbaseq                    = meanbaseq
-    String    report_meanmapq                     = meanmapq
+    String    report_meanbaseq                    = meanbaseq_report
+    String    report_meanmapq                     = meanmapq_report
     String    report_pango_lineage                = select_first([pango_lineage, "NA"])
     Int       report_qc_reads_raw                 = select_first([qc_reads_raw, 0])
     Int       report_qc_reads_clean               = select_first([qc_reads_clean, 0])
@@ -77,7 +86,7 @@ workflow sphl_lims_prep {
     Int       report_number_Degenerate            = select_first([number_Degenerate, 0])
     Int       report_number_Total                 = select_first([number_Total, 0])
     Float     report_percent_reference_coverage   = select_first([percent_reference_coverage, 0.0])
-    String    report_assembly_mean_coverage       = assembly_mean_coverage
+    String    report_assembly_mean_coverage       = assembly_mean_coverage_report
     String    report_nextclade_aa_subs            = select_first([nextclade_aa_subs, "NA"])
     String    report_nextclade_aa_dels            = select_first([nextclade_aa_dels, "NA"])
     String    report_nextclade_clade              = select_first([nextclade_clade, "NA"])
