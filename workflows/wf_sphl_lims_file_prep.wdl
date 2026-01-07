@@ -7,8 +7,8 @@ workflow sphl_lims_prep {
   input {
     String    samplename
     Float?    percent_reference_coverage = 0.0
-    String    meanbaseq
-    String    meanmapq
+    String?   meanbaseq = "0.0"
+    String?   meanmapq = "0.0"
     String?   pango_lineage = "NA"
     String?   pangolin_version = "NA"
     String    analysis_method
@@ -26,7 +26,7 @@ workflow sphl_lims_prep {
     Int?      number_Degenerate = 0
     Int?      number_Total = 0
     Float?    percent_reference_coverage = 0.0
-    String    assembly_mean_coverage
+    String?   assembly_mean_coverage = "0.0"
     String?   nextclade_aa_subs = "NA"
     String?   nextclade_aa_dels = "NA"
     String?   nextclade_clade = "NA"
@@ -46,10 +46,10 @@ workflow sphl_lims_prep {
   call lims_prep {
     input:
       samplename                 = samplename,
-      percent_reference_coverage = select_first([percent_reference_coverage, 0.0]), 
+      percent_reference_coverage = percent_reference_coverage, 
       meanbaseq                  = format_empty_strings.meanbaseq_report, 
       meanmapq                   = format_empty_strings.meanmapq_report,
-      pango_lineage              = select_first([pango_lineage, "NA"]),
+      pango_lineage              = pango_lineage,
       cov_threshold              = cov_threshold,
       docker                     = utiltiy_docker
   }  
@@ -88,9 +88,9 @@ workflow sphl_lims_prep {
 task format_empty_strings {
   input {
     String     samplename
-    String     meanbaseq
-    String     meanmapq
-    String     assembly_mean_coverage
+    String?    meanbaseq
+    String?    meanmapq
+    String?    assembly_mean_coverage
     String     docker
   }
   command <<<
