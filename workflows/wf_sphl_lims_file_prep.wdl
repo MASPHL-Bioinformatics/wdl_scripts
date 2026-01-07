@@ -58,7 +58,7 @@ workflow sphl_lims_prep {
     String    assembly_status         = lims_prep.assembly_status
     String    report_tool_lineage     = lims_prep.tool_lineage
     String    report_lineage_to_maven = lims_prep.tool_lineage
-    String    report_pango_version    = select_first([pangolin_version, "NA"])
+    String    report_pango_version    = pangolin_version
     String    report_organism         = "SARS-CoV-2"
     String    report_test             = "SARS-CoV-2 Sequencing"
     String    report_method           = analysis_method
@@ -66,22 +66,22 @@ workflow sphl_lims_prep {
     String    batchid                 = batch_id
     String    report_meanbaseq                    = format_empty_strings.meanbaseq_report
     String    report_meanmapq                     = format_empty_strings.meanmapq_report
-    String    report_pango_lineage                = select_first([pango_lineage, "NA"])
-    Int       report_qc_reads_raw                 = select_first([qc_reads_raw, 0])
-    Int       report_qc_reads_clean               = select_first([qc_reads_clean, 0])
-    Float     report_kraken_human                 = select_first([kraken_human, 0.0])
-    Float     report_kraken_sc2                   = select_first([kraken_sc2, 0.0])
-    Float     report_kraken_human_dehosted        = select_first([kraken_human_dehosted, 0.0])
-    Float     report_kraken_sc2_dehosted          = select_first([kraken_sc2_dehosted, 0.0])
-    Int       report_number_N                     = select_first([number_N, 0])
-    Int       report_assembly_length_unambiguous  = select_first([assembly_length_unambiguous, 0])
-    Int       report_number_Degenerate            = select_first([number_Degenerate, 0])
-    Int       report_number_Total                 = select_first([number_Total, 0])
-    Float     report_percent_reference_coverage   = select_first([percent_reference_coverage, 0.0])
+    String    report_pango_lineage                = pango_lineage
+    Int       report_qc_reads_raw                 = qc_reads_raw
+    Int       report_qc_reads_clean               = qc_reads_clean
+    Float     report_kraken_human                 = kraken_human
+    Float     report_kraken_sc2                   = kraken_sc2
+    Float     report_kraken_human_dehosted        = kraken_human_dehosted
+    Float     report_kraken_sc2_dehosted          = kraken_sc2_dehosted
+    Int       report_number_N                     = number_N
+    Int       report_assembly_length_unambiguous  = assembly_length_unambiguous
+    Int       report_number_Degenerate            = number_Degenerate
+    Int       report_number_Total                 = number_Total
+    Float     report_percent_reference_coverage   = percent_reference_coverage
     String    report_assembly_mean_coverage       = format_empty_strings.assembly_mean_coverage_report
-    String    report_nextclade_aa_subs            = select_first([nextclade_aa_subs, "NA"])
-    String    report_nextclade_aa_dels            = select_first([nextclade_aa_dels, "NA"])
-    String    report_nextclade_clade              = select_first([nextclade_clade, "NA"])
+    String    report_nextclade_aa_subs            = nextclade_aa_subs
+    String    report_nextclade_aa_dels            = nextclade_aa_dels
+    String    report_nextclade_clade              = nextclade_clade
   }
 }
 
