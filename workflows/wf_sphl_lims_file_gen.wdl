@@ -34,6 +34,12 @@ workflow sphl_lims_file_gen {
     String           test = "SARS-CoV-2 Sequencing"
     String           utility_docker  = "quay.io/broadinstitute/viral-baseimage@sha256:340c0a673e03284212f539881d8e0fb5146b83878cbf94e4631e8393d4bc6753"
   }
+  call filter_samples {
+    input:
+      samplename      = samplename,
+      assembly_status = assembly_status,
+      docker          = utility_docker
+  }
   call lims_file_gen {
     input:
       samplename       = samplename,
@@ -75,6 +81,43 @@ workflow sphl_lims_file_gen {
   output {
     File      btb_lims_file = lims_file_gen.lims_file
     File      run_results_file = run_results_file_gen.results_file
+    Array[String] passing_samples = filter_samples.passing_samples
+  }
+}
+
+task filter_samples {
+  input {
+    Array[String] samplename
+    Array[String] assembly_status
+    String        docker
+  }
+
+  command <<<
+    python3 <<CODE
+    samplename_array = ['~{sep="','" samplename}']
+    assembly_status_array = ['~{sep="','" assembly_status}']
+
+    with open("passing_samples.txt", "w") as outfile:
+        if len(samplename_array) != len(assembly_status_array):
+            raise Exception(
+                f"Input arrays have different lengths: "
+                f"{len(samplename_array)} vs {len(assembly_status_array)}"
+            )
+
+        for name, status in zip(samplename_array, assembly_status_array):
+            if status == "PASS":
+                outfile.write(name + "\n")
+    CODE
+  >>>
+
+  output {
+    Array[String] passing_samples = read_lines("passing_samples.txt")
+  }
+
+  runtime {
+    docker: docker
+    memory: "1 GB"
+    cpu: 1
   }
 }
 
@@ -131,7 +174,6 @@ task lims_file_gen {
     cpu: 1
   }
 }
-
 
 task run_results_file_gen {
   input {
