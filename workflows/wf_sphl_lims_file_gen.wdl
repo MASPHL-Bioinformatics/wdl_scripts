@@ -37,6 +37,7 @@ workflow sphl_lims_file_gen {
   call filter_samples {
     input:
       samplename      = samplename,
+      batchid         = batchid,
       assembly_status = assembly_status,
       docker          = utility_docker
   }
@@ -81,43 +82,43 @@ workflow sphl_lims_file_gen {
   output {
     File      btb_lims_file = lims_file_gen.lims_file
     File      run_results_file = run_results_file_gen.results_file
-    Array[String] passing_samples = filter_samples.passing_samples
+    File      passing_sample_set_for_import = filter_samples.passing_sample_set_for_import
   }
 }
 
 task filter_samples {
   input {
     Array[String] samplename
+    Array[String] batchid
     Array[String] assembly_status
-    String        docker
+    String utility_docker
   }
 
   command <<<
-    python3 <<CODE
-    samplename_array = ['~{sep="','" samplename}']
-    assembly_status_array = ['~{sep="','" assembly_status}']
+    python3 <<'PY'
+from pathlib import Path
 
-    with open("passing_samples.txt", "w") as outfile:
-        if len(samplename_array) != len(assembly_status_array):
-            raise Exception(
-                f"Input arrays have different lengths: "
-                f"{len(samplename_array)} vs {len(assembly_status_array)}"
-            )
+sample_names = """~{sep='\n' samplename}""".splitlines()
+batch_ids = """~{sep='\n' batchid}""".splitlines()
+statuses = """~{sep='\n' assembly_status}""".splitlines()
 
-        for name, status in zip(samplename_array, assembly_status_array):
-            if status == "PASS":
-                outfile.write(name + "\n")
-    CODE
+sample_set = batch_ids[0] + "_PASS"
+
+with open("passing_sample_set_for_import.tsv", "w") as out:
+    out.write("membership:sample_set_id\tsample\n")
+
+    for sample, status in zip(sample_names, statuses):
+        if status == "PASS":
+            out.write(f"{sample_set}\t{sample}\n")
+PY
   >>>
 
   output {
-    Array[String] passing_samples = read_lines("passing_samples.txt")
+    File passing_sample_set_for_import = "passing_sample_set_for_import.tsv"
   }
 
   runtime {
-    docker: docker
-    memory: "1 GB"
-    cpu: 1
+    docker: utility_docker
   }
 }
 
