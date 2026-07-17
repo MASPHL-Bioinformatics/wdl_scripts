@@ -91,7 +91,7 @@ task filter_samples {
     Array[String] samplename
     Array[String] batchid
     Array[String] assembly_status
-    String utility_docker
+    String docker
   }
 
   command <<<
@@ -118,7 +118,7 @@ PY
   }
 
   runtime {
-    docker: utility_docker
+    docker: docker
   }
 }
 
