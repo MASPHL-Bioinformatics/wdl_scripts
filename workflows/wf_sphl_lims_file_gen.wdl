@@ -102,14 +102,12 @@ sample_names = """~{sep='\n' samplename}""".splitlines()
 batch_ids = """~{sep='\n' batchid}""".splitlines()
 statuses = """~{sep='\n' assembly_status}""".splitlines()
 
-sample_set = batch_ids[0] + "_PASS"
-
-with open("passing_sample_set_for_import.tsv", "w") as out:
+with open("passing_sample_set_import.tsv", "w") as out:
     out.write("membership:sample_set_id\tsample\n")
 
-    for sample, status in zip(sample_names, statuses):
+    for sample, batch, status in zip(sample_names, batch_ids, statuses):
         if status == "PASS":
-            out.write(f"{sample_set}\t{sample}\n")
+            out.write(f"{batch}_PASS\t{sample}\n")
 PY
   >>>
 
